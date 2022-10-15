@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"net/url"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -19,8 +18,19 @@ import (
 	"github.com/urfave/cli"
 )
 
-func postForm(pathname string, data url.Values) (r JSONResponse, err error) {
-	resp, err := http.PostForm(cfg.Client.ServerURL+pathname, data)
+func serverOperate(pathname string) (r JSONResponse, err error) {
+	auth := cfg.Server.HttpAuth
+	var user, password string
+	if auth.Enabled {
+		user = auth.User
+		password = auth.Password
+	}
+	resp, err := goreq.Request{
+		Method:            "POST",
+		Uri:               cfg.Client.ServerURL + pathname,
+		BasicAuthUsername: user,
+		BasicAuthPassword: password,
+	}.Do()
 	if err != nil {
 		return r, err
 	}
@@ -44,7 +54,6 @@ func actionStartServer(c *cli.Context) error {
 	auth := cfg.Server.HttpAuth
 	if auth.Enabled {
 		hdlr = httpauth.SimpleBasicAuth(auth.User, auth.Password)(hdlr)
-
 	}
 	http.Handle("/", hdlr)
 	addr := cfg.Server.Addr
@@ -84,8 +93,16 @@ func actionStartServer(c *cli.Context) error {
 }
 
 func actionStatus(c *cli.Context) error {
+	auth := cfg.Server.HttpAuth
+	var user, password string
+	if auth.Enabled {
+		user = auth.User
+		password = auth.Password
+	}
 	res, err := goreq.Request{
-		Uri: cfg.Client.ServerURL + "/api/programs",
+		Uri:               cfg.Client.ServerURL + "/api/programs",
+		BasicAuthUsername: user,
+		BasicAuthPassword: password,
 	}.Do()
 	if err != nil {
 		return err
@@ -107,9 +124,17 @@ func actionStatus(c *cli.Context) error {
 
 // cmd: <start|stop>
 func programOperate(cmd, name string) (err error, success bool) {
+	auth := cfg.Server.HttpAuth
+	var user, password string
+	if auth.Enabled {
+		user = auth.User
+		password = auth.Password
+	}
 	res, err := goreq.Request{
-		Method: "POST",
-		Uri:    cfg.Client.ServerURL + "/api/programs/" + name + "/" + cmd,
+		Method:            "POST",
+		Uri:               cfg.Client.ServerURL + "/api/programs/" + name + "/" + cmd,
+		BasicAuthUsername: user,
+		BasicAuthPassword: password,
 	}.Do()
 	if err != nil {
 		return
@@ -155,7 +180,7 @@ func actionShutdown(c *cli.Context) error {
 	if restart {
 		log.Fatal("Restart not implemented.")
 	}
-	ret, err := postForm("/api/shutdown", nil)
+	ret, err := serverOperate("/api/shutdown")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -181,7 +206,7 @@ func actionVersion(c *cli.Context) error {
 }
 
 func actionReload(c *cli.Context) error {
-	ret, err := postForm("/api/reload", nil)
+	ret, err := serverOperate("/api/reload")
 	if err != nil {
 		log.Fatal(err)
 	}

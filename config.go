@@ -11,7 +11,7 @@ import (
 type Configuration struct {
 	Server struct {
 		ServerName string `yaml:"servername"`
-		HttpAuth struct {
+		HttpAuth   struct {
 			Enabled  bool   `yaml:"enabled"`
 			User     string `yaml:"username"`
 			Password string `yaml:"password"`

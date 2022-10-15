@@ -10,6 +10,6 @@ import (
 // Assets contains project assets.
 //var Assets http.FileSystem = http.Dir("res")
 
-var Assets http.FileSystem   //= rice.MustFindBox("res").HTTPBox()
+var Assets http.FileSystem //= rice.MustFindBox("res").HTTPBox()
 //var fff, _ = rice.FindBox("res")
 //var Assets http.FileSystem = fff.HTTPBox()

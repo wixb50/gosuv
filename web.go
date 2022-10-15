@@ -352,10 +352,10 @@ func (s *Supervisor) hAddProgram(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusForbidden)
 		return
 	}
-	envs := strings.Split(strings.ReplaceAll(r.FormValue("environ"),":",";"),";")
+	envs := strings.Split(strings.ReplaceAll(r.FormValue("environ"), ":", ";"), ";")
 	envsok := []string{}
 	for _, env := range envs {
-		if strings.Contains(env, "="){
+		if strings.Contains(env, "=") {
 			envsok = append(envsok, env)
 		}
 	}

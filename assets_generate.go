@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/shurcooL/vfsgen"
 )
 

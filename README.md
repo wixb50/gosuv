@@ -1,5 +1,5 @@
 # 概述
-GoSuv是GO语言重写的类supervisor的一个进程管理程序，在[codeskyblue/gosuv](https://github.com/codeskyblue/gosuv)基础上增加了环境变量的配置以及主机名称的配置等，用rice封装对静态文件进行了封装，单文件运行，简单易用，界面美感十足且对用户友好 
+GoSuv是GO语言重写的类supervisor的一个带web界面的进程管理程序，单文件运行，简单易用，界面美感十足且对用户友好。
 
 
 
@@ -35,7 +35,7 @@ GoSuv是GO语言重写的类supervisor的一个进程管理程序，在[codeskyb
 
 默认端口 11113  本机测试请使用[http://localhost:11313](http://localhost:11313)
 
-![例子](https://github.com/tiezhong2004/gosuv/blob/master/docs/des.gif)
+![例子](https://github.com/wixb50/gosuv/blob/master/docs/des.gif)
 
 ## 配置
 默认配置文件都放在 `$HOME/.gosuv/`
@@ -74,9 +74,14 @@ http  RESTFul 接口
 
 `DELETE /api/programs/:name`
 
-## 待续
-内容不是很多，还是推荐能看懂英语的去看[英文的README](README.md)
+## 二次开发
+
+```
+$ go get # 下载依赖
+$ go generate  # 打包静态资源生成代码
+$ goreleaser release --skip-publish  # 打包发布
+```
 
 ## 贡献人
 - [Docking](http://miaomia.com)  
-- [wutiezhong](https://blog.csdn.net/tiezhong2004)
+- [codeskyblue](https://github.com/codeskyblue/gosuv)

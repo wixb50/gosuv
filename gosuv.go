@@ -108,8 +108,8 @@ func main() {
 	}
 	app.Authors = []cli.Author{
 		cli.Author{
-			Name:  "wutz",
-			Email: "58516795@qq.com",
+			Name:  "wixb50",
+			Email: "wixb50@gmail.com",
 		},
 	}
 	app.Flags = []cli.Flag{
